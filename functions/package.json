@@ -1,0 +1,14 @@
+{
+  "name": "questflow-telegram-functions",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "20"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^14.5.0",
+    "firebase-functions": "^6.4.0",
+    "grammy": "^1.46.0"
+  }
+}
