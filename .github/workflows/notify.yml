@@ -1,28 +1,36 @@
-name: Notify Telegram Users
+name: QuestFlow Telegram Notifications
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # Запуск каждые 6 часов
-  workflow_dispatch: # Позволяет запускать вручную через интерфейс Гитхаба
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   notify:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/telegram-bot
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-    - name: Install dependencies
-      run: npm install firebase-admin --legacy-peer-deps
+      - name: Install bot dependencies
+        run: npm install
 
-    - name: Run notification script
-      env:
-        FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-      run: node scripts/check-discounts.mjs
+      - name: Check wishlist discounts
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          QUESTFLOW_WEB_URL: ${{ vars.QUESTFLOW_WEB_URL }}
+          MIN_DISCOUNT_PERCENT: '5'
+        run: npm run check:discounts
