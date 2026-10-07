@@ -21,7 +21,7 @@ jobs:
         run: git clone --depth 1 --branch master https://github.com/Ariscion/QuestFlow.git /tmp/questflow-source
 
       - name: Replace repository contents
-        run: rsync -a --delete --exclude='.git/' /tmp/questflow-source/ ./
+        run: rsync -a --delete --exclude='.git/' --exclude='.github/workflows/' /tmp/questflow-source/ ./
 
       - name: Commit imported project
         run: |
