@@ -1,7 +1,7 @@
 {
-  "name": "VELO Deals Aggregator",
-  "short_name": "VELO",
-  "description": "Gamified platform and digital goods price aggregator",
+  "name": "QuestFlow",
+  "short_name": "QuestFlow",
+  "description": "Unified gaming platform for game discovery, deals, wishlist and personal library management",
   "theme_color": "#0a0f18",
   "background_color": "#0a0f18",
   "display": "standalone",
