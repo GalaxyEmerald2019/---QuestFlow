@@ -113,6 +113,14 @@ Tests:
 npm run test:run
 ```
 
+## Telegram Bot service
+
+QuestFlow now includes an isolated Telegram service in [`services/telegram-bot`](services/telegram-bot).
+
+It supports game search, current deals, QuestFlow wishlist access, profile statistics, notification settings and automatic wishlist discount alerts. Telegram Mini App users share the same Firestore document with the bot via the `tg_<telegramId>` user ID convention.
+
+The service is intentionally separated from the React frontend so it can later be moved into its own `QuestFlow-Bot` repository or deployed independently.
+
 ## Project status
 
 QuestFlow is under active development. The current repository represents the working web version and the foundation for a larger gaming platform.
