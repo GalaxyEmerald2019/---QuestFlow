@@ -22,7 +22,25 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
+
+      - name: Validate notification configuration
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: |
+          node --input-type=module <<'NODE'
+          const required = ['TELEGRAM_BOT_TOKEN', 'FIREBASE_SERVICE_ACCOUNT'];
+          const missing = required.filter(name => !process.env[name]?.trim());
+          for (const name of missing) {
+            console.error(`::error::Missing GitHub Actions secret: ${name}`);
+          }
+          if (missing.length) {
+            console.error('Add these secrets in Settings > Secrets and variables > Actions.');
+            process.exit(1);
+          }
+          console.log('Required notification secrets are configured.');
+          NODE
 
       - name: Install bot dependencies
         run: npm install

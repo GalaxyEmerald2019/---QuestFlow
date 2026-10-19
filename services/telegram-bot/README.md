@@ -42,7 +42,7 @@ users/tg_<telegramId>
 
 ## Локальный запуск
 
-Требуется Node.js 20+.
+Требуется Node.js 22+ (Firebase Admin 14 требует Node.js 22 или новее).
 
 ```bash
 cd services/telegram-bot
@@ -86,3 +86,16 @@ npm run check:discounts
 Сам бот работает через long polling, поэтому ему нужен постоянно работающий Node.js-процесс. Подойдут Railway, Render, Fly.io, VPS или другой сервис для long-running приложений.
 
 Планируемая следующая стадия: вынести эту папку в отдельный репозиторий `QuestFlow-Bot` без изменения внутренней архитектуры.
+
+## Настройка GitHub Actions
+
+В Settings > Secrets and variables > Actions > Repository secrets добавьте:
+
+- `TELEGRAM_BOT_TOKEN`: токен существующего бота из BotFather.
+- `FIREBASE_SERVICE_ACCOUNT`: JSON сервисного аккаунта Firebase проекта, который использует QuestFlow; поддерживается также Base64.
+
+Публичная клиентская конфигурация Firebase (`VITE_FIREBASE_*`) не заменяет сервисный аккаунт.
+Не добавляйте секреты в файлы репозитория и не отправляйте их в чат.
+
+Без этих настроек задача уведомлений завершится ошибкой до установки зависимостей.
+`QUESTFLOW_WEB_URL` можно задать в Actions variables; если переменная отсутствует, используется URL по умолчанию из `src/config.ts`.
